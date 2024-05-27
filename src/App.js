@@ -6,6 +6,7 @@ import {
 import "./App.css";
 import Home from "./Pages/Home";
 import RootLayot from "./Pages/RootLayout";
+import NewDayPage from "./Pages/NewDayPage";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +18,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <RootLayot />,
-        children: [{ path: "home", element: <Home /> }],
+        children: [
+          { path: "home", element: <Home /> },
+          { path: "new", element: <NewDayPage /> },
+        ],
       },
     ],
   },
