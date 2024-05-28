@@ -20,7 +20,7 @@ const router = createBrowserRouter([
         element: <RootLayot />,
         children: [
           { path: "home", element: <Home /> },
-          { path: "new", element: <NewDayPage /> },
+          { path: "create", element: <NewDayPage /> },
         ],
       },
     ],
