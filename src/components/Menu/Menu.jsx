@@ -4,10 +4,11 @@ import {
   DisclosurePanel,
 } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Link, useLocation } from "react-router-dom";
 
 const navigation = [
-  { name: "List of Days", href: "/home", current: true },
-  { name: "New Day", href: "/create", current: false },
+  { name: "List of Days", href: "/home" },
+  { name: "New Day", href: "/create" },
 ];
 
 function classNames(...classes) {
@@ -15,6 +16,9 @@ function classNames(...classes) {
 }
 
 export default function NavigationMenu() {
+  const location = useLocation();
+
+  console.log(location);
   return (
     <>
       <div className="min-h-full">
@@ -34,19 +38,23 @@ export default function NavigationMenu() {
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((item) => (
-                          <a
+                          <Link
                             key={item.name}
-                            href={item.href}
+                            to={item.href}
                             className={classNames(
-                              item.current
+                              item.href === location.pathname
                                 ? "bg-gray-900 text-white"
                                 : "text-gray-300 hover:bg-gray-700 hover:text-white",
                               "rounded-md px-3 py-2 text-sm font-medium"
                             )}
-                            aria-current={item.current ? "page" : undefined}
+                            aria-current={
+                              location.pathname === item.href
+                                ? "page"
+                                : undefined
+                            }
                           >
                             {item.name}
-                          </a>
+                          </Link>
                         ))}
                       </div>
                     </div>
@@ -84,9 +92,11 @@ export default function NavigationMenu() {
                         item.current
                           ? "bg-gray-900 text-white"
                           : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                        "block rounded-md px-3 py-2 text-base font-medium"
+                        "rounded-md px-3 py-2 text-sm font-medium"
                       )}
-                      aria-current={item.current ? "page" : undefined}
+                      aria-current={
+                        location.pathname === item.href ? "page" : undefined
+                      }
                     >
                       {item.name}
                     </DisclosureButton>
