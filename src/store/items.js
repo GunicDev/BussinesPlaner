@@ -1,19 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  data: [],
-  page: [],
+  items: [],
   uploadMessage: false,
   isLoading: true,
   setError: false,
 };
 
-const data = createSlice({
-  name: "data",
+const items = createSlice({
+  name: "items",
   initialState: initialState,
   reducers: {
-    setData(state, action) {
-      state.data = action.payload;
+    setItem(state, action) {
+      state.items = action.payload;
     },
     setError(state, action) {
       state.setError = action.payload;
@@ -27,7 +26,7 @@ const data = createSlice({
   },
 });
 
-export const { setData, setError, setIsLoading, setUploadMessage } =
-  data.actions;
+export const { setItem, setError, setIsLoading, setUploadMessage } =
+  items.actions;
 
-export default data;
+export default items;

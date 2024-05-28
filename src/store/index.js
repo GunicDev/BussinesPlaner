@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import data from "./data";
+import days from "./days";
+import items from "./items";
 
 const store = configureStore({
   reducer: {
-    data: data.reducer,
+    days: days.reducer,
+    items: items.reducer,
   },
 });
 

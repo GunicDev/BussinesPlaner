@@ -12,7 +12,7 @@
   }
   ```
 */
-export default function Input({ label, type, name, placeholder }) {
+export default function Input({ label, type, name, placeholder, onChange }) {
   return (
     <div className="relative">
       <label
@@ -27,6 +27,7 @@ export default function Input({ label, type, name, placeholder }) {
         id={name}
         className=" pl-3 block bg-inherit w-full py-1.5 text-white shadow-sm border-b-2 placeholder:text-gray-400  outline-none sm:text-sm sm:leading-6"
         placeholder={placeholder}
+        onChange={onChange}
       />
     </div>
   );
