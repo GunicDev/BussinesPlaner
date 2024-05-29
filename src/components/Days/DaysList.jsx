@@ -15,7 +15,7 @@ export default function DaysList() {
           <div className="px-4 sm:px-6 lg:px-8">
             <div className="sm:flex sm:items-center">
               <div className="sm:flex-auto">
-                <h1 className="text-base font-semibold leading-6 text-white cursor-default">
+                <h1 className="text-base font-semibold leading-6 cursor-default">
                   Days
                 </h1>
                 <p className="mt-2 text-sm text-gray-300 cursor-default">
@@ -38,13 +38,13 @@ export default function DaysList() {
                       <tr className="cursor-default">
                         <th
                           scope="col"
-                          className="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-white sm:pl-0"
+                          className="py-3.5 pl-4 pr-3 text-center text-sm font-semibold  sm:pl-0"
                         >
                           Name
                         </th>
                         <th
                           scope="col"
-                          className="px-3 py-3.5 text-center text-sm font-semibold text-white"
+                          className="px-3 py-3.5 text-center text-sm font-semibold "
                         >
                           Tasks
                         </th>
@@ -64,7 +64,7 @@ export default function DaysList() {
                           onClick={() => editHandler(item.id)}
                           className="hover:bg-blue-900 cursor-pointer"
                         >
-                          <td className="whitespace-nowrap text-center py-4 pl-4 pr-3 text-sm font-medium text-white sm:pl-0">
+                          <td className="whitespace-nowrap text-center py-4 pl-4 pr-3 text-sm font-medium  sm:pl-0">
                             {item.name}
                           </td>
                           <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-300">
