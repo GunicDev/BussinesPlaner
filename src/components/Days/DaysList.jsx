@@ -1,26 +1,11 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-const people = [
-  {
-    id: 1,
-    name: "Day 1",
-    number: "3",
-  },
-  {
-    id: 2,
-    name: "Day 2",
-    number: "10",
-  },
-  {
-    id: 3,
-    name: "Day 3",
-    number: "16",
-  },
-
-  // More people...
-];
-
 export default function DaysList() {
+  const days = useSelector((state) => state.days.days);
+
+  console.log(days);
+
   const editHandler = (id) => {
     console.log(id);
   };
@@ -74,7 +59,7 @@ export default function DaysList() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-800">
-                      {people.map((item) => (
+                      {days.map((item) => (
                         <tr
                           key={item.id}
                           onClick={() => editHandler(item.id)}
@@ -82,9 +67,10 @@ export default function DaysList() {
                         >
                           <td className="whitespace-nowrap text-center py-4 pl-4 pr-3 text-sm font-medium text-white sm:pl-0">
                             {item.name}
+                            {console.log(item)}
                           </td>
                           <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-300">
-                            {item.number}
+                            {}
                           </td>
                           <td className="relative whitespace-nowrap  py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                             <Link

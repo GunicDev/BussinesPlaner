@@ -19,7 +19,6 @@ function classNames(...classes) {
 export default function NavigationMenu() {
   const location = useLocation();
 
-  console.log(location);
   return (
     <>
       <div className="min-h-full">
