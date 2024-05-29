@@ -72,7 +72,7 @@ export default function DayDetail() {
         </div>
       )}
       <div className="mt-7 text-center">
-        <h1 className="text-xl">Tasks:</h1>
+        <h1 className="text-xl">{filteredDayDetail.name} tasks:</h1>
         <ul className="mt-3">
           <li>laksdlkans</li>
           <li>laksdaasdasdlkans</li>
