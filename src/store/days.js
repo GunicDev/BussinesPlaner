@@ -4,6 +4,7 @@ import { allDays, postDay } from "../helper/fetch";
 // Initial state
 const initialState = {
   days: [],
+  filteredDay: null,
   uploadMessage: false,
   isLoading: true,
   setError: false,
@@ -29,6 +30,9 @@ const days = createSlice({
     addDaySuccess(state, action) {
       state.days.push(action.payload);
     },
+    setFilteredDay(state, action) {
+      state.filteredDay = state.days.find((day) => day.id === action.payload);
+    },
   },
 });
 
@@ -38,6 +42,7 @@ export const {
   setIsLoading,
   setUploadMessage,
   addDaySuccess,
+  setFilteredDay,
 } = days.actions;
 
 export const getAllDays = (url) => async (dispatch) => {
@@ -52,12 +57,10 @@ export const getAllDays = (url) => async (dispatch) => {
   }
 };
 
-// Thunk to handle new day creation
 export const newDay = (url, data) => async (dispatch) => {
   try {
     dispatch(setIsLoading(true));
 
-    // Generate a new unique key from Firebase
     const newKeyRef = await fetch(`${url}.json`, {
       method: "POST",
       headers: {
@@ -71,15 +74,12 @@ export const newDay = (url, data) => async (dispatch) => {
     }
 
     const keyData = await newKeyRef.json();
-    const key = keyData.name; // 'name' contains the unique key
+    const key = keyData.name;
 
-    // Create the new entry object
-    const newEntry = { id: key, name: data };
+    const newEntry = { id: key, name: data, items: [] };
 
-    // Post the new entry to Firebase
     await postDay(url, key, newEntry);
 
-    // Dispatch success action
     dispatch(addDaySuccess(newEntry));
     dispatch(setUploadMessage(true));
   } catch (error) {
@@ -87,6 +87,16 @@ export const newDay = (url, data) => async (dispatch) => {
     dispatch(setError(true));
   } finally {
     dispatch(setIsLoading(false));
+  }
+};
+
+export const filteredDay = (id) => async (dispatch) => {
+  try {
+    dispatch(setIsLoading(true));
+    dispatch(setFilteredDay(id));
+  } catch (error) {
+    console.error("Error:", error);
+    dispatch(setError(true));
   }
 };
 

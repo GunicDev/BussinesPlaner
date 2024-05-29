@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fbDays } from "./API/api";
 import { getAllDays } from "./store/days";
+import DetailPage from "./Pages/DetailPage";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
         children: [
           { path: "home", element: <Home /> },
           { path: "create", element: <NewDayPage /> },
+          { path: ":dayId", element: <DetailPage /> },
         ],
       },
     ],

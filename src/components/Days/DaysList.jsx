@@ -1,13 +1,12 @@
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function DaysList() {
   const days = useSelector((state) => state.days.days);
-
-  console.log(days);
+  const nagivate = useNavigate();
 
   const editHandler = (id) => {
-    console.log(id);
+    nagivate(`/${id}`);
   };
   return (
     <div className="m-0 p-0">
@@ -67,10 +66,9 @@ export default function DaysList() {
                         >
                           <td className="whitespace-nowrap text-center py-4 pl-4 pr-3 text-sm font-medium text-white sm:pl-0">
                             {item.name}
-                            {console.log(item)}
                           </td>
                           <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-300">
-                            {}
+                            {/* {add lenght of the list items inside object} */}
                           </td>
                           <td className="relative whitespace-nowrap  py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                             <Link
