@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { allDays, postDay } from "../helper/fetch";
 
-// Initial state
 const initialState = {
   days: [],
   filteredDay: null,
@@ -10,7 +9,6 @@ const initialState = {
   setError: false,
 };
 
-// Create the slice
 const days = createSlice({
   name: "days",
   initialState,
@@ -49,11 +47,12 @@ export const getAllDays = (url) => async (dispatch) => {
   try {
     dispatch(setIsLoading(true));
     const data = await allDays(url);
-
     dispatch(setDay(data));
+    dispatch(setIsLoading(false));
   } catch (error) {
     console.error(error);
-    throw error;
+    dispatch(setError(true));
+    dispatch(setIsLoading(false));
   }
 };
 
@@ -94,6 +93,7 @@ export const filteredDay = (id) => async (dispatch) => {
   try {
     dispatch(setIsLoading(true));
     dispatch(setFilteredDay(id));
+    dispatch(setIsLoading(false));
   } catch (error) {
     console.error("Error:", error);
     dispatch(setError(true));

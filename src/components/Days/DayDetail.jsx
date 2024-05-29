@@ -1,20 +1,27 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { filteredDay } from "../../store/days";
+import { filteredDay, getAllDays } from "../../store/days";
+import { fbDays } from "../../API/api";
 
 export default function DayDetail() {
   const { dayId } = useParams();
   const dispatch = useDispatch();
   const filteredDayDetail = useSelector((state) => state.days.filteredDay);
+  const days = useSelector((state) => state.days.days);
+  const isLoading = useSelector((state) => state.days.isLoading);
 
   useEffect(() => {
-    dispatch(filteredDay(dayId));
-  }, [dayId, dispatch]);
+    if (days.length === 0) {
+      dispatch(getAllDays(fbDays)).then(() => {
+        dispatch(filteredDay(dayId));
+      });
+    } else {
+      dispatch(filteredDay(dayId));
+    }
+  }, [dayId, dispatch, days.length]);
 
-  console.log(filteredDayDetail, dayId);
-
-  if (filteredDayDetail === null || filteredDayDetail === undefined) {
+  if (isLoading || filteredDayDetail === null) {
     return <p className="text-white">Loading...</p>;
   }
 
