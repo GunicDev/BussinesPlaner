@@ -26,17 +26,7 @@ const days = createSlice({
     },
     addDaySuccess(state, action) {
       const newData = action.payload.newData;
-      const existingIndex = state.data.findIndex(
-        (item) => item.id === newData.id
-      );
-      if (existingIndex !== -1) {
-        console.log(
-          "Data with the same ID already exists. Updating existing data..."
-        );
-        state.data[existingIndex] = newData;
-      } else {
-        state.data.push(newData);
-      }
+      state.days.push(newData);
     },
   },
 });
@@ -50,11 +40,9 @@ export const {
 } = days.actions;
 
 export const newDay = (url, data) => async (dispatch) => {
-  const newData = { ...data };
-
   try {
-    dispatch(addDaySuccess({ ...newData }));
-    await postDay(url, newData);
+    dispatch(addDaySuccess(data));
+    await postDay(url, data);
   } catch (error) {
     console.error("Error:", error);
     throw error;

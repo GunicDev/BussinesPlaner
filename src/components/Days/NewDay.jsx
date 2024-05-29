@@ -1,8 +1,13 @@
 import { useState } from "react";
 import Button from "../UI/Button/Button";
 import Input from "../UI/Input/Input";
+import { useDispatch } from "react-redux";
+import { newDay } from "../../store/days";
+import { fbDays } from "../../API/api";
 
 export default function NewDay() {
+  const dispatch = useDispatch();
+
   const [inputValue, setInputValue] = useState("");
 
   const newDayHandler = (event) => {
@@ -12,6 +17,7 @@ export default function NewDay() {
   const submitHandler = (event) => {
     event.preventDefault();
 
+    dispatch(newDay(fbDays, inputValue));
     console.log(inputValue);
   };
 

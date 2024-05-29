@@ -5,9 +5,12 @@ export default async function postDay(url, newData) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newData),
     });
+    if (!response.ok) {
+      throw new Error("Failed to post data");
+    }
 
     const data = await response.json();
-    console.log(data);
+
     return data;
   } catch (error) {
     console.error("Error:", error);
