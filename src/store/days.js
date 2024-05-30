@@ -14,7 +14,11 @@ const days = createSlice({
   initialState,
   reducers: {
     setDay(state, action) {
-      state.days = action.payload;
+      // Ensure each day has a tasks array
+      state.days = action.payload.map((day) => ({
+        ...day,
+        tasks: Array.isArray(day.tasks) ? day.tasks : [],
+      }));
     },
     setError(state, action) {
       state.setError = action.payload;
@@ -31,6 +35,13 @@ const days = createSlice({
     setFilteredDay(state, action) {
       state.filteredDay = state.days.find((day) => day.id === action.payload);
     },
+    addTaskToDay(state, action) {
+      const { dayId, task } = action.payload;
+      const day = state.days.find((d) => d.id === dayId);
+      if (day) {
+        day.tasks.push(task);
+      }
+    },
   },
 });
 
@@ -41,6 +52,7 @@ export const {
   setUploadMessage,
   addDaySuccess,
   setFilteredDay,
+  addTaskToDay,
 } = days.actions;
 
 export const getAllDays = (url) => async (dispatch) => {
@@ -75,7 +87,7 @@ export const newDay = (url, data) => async (dispatch) => {
     const keyData = await newKeyRef.json();
     const key = keyData.name;
 
-    const newEntry = { id: key, name: data, items: [] };
+    const newEntry = { id: key, name: data, tasks: [{}] };
 
     await postDay(url, key, newEntry);
 

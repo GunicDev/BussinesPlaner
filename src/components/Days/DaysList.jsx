@@ -8,6 +8,10 @@ export default function DaysList() {
   const editHandler = (id) => {
     nagivate(`/${id}`);
   };
+
+  if (days === undefined || days === null) {
+    return <h1>There is no days created!</h1>;
+  }
   return (
     <div className="m-0 p-0">
       <div className="mx-auto max-w-7xl">

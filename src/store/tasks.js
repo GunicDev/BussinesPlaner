@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { postTask } from "../helper/fetch";
 
 const initialState = {
   tasks: [],
@@ -25,7 +24,14 @@ const tasks = createSlice({
       state.uploadMessage = action.payload;
     },
     addTaskSuccess(state, action) {
-      state.tasks.push(action.payload);
+      const { dayId, task } = action.payload;
+      const existingDay = state.tasks.find((day) => day.id === dayId);
+      if (existingDay) {
+        existingDay.tasks.push(task);
+      } else {
+        state.tasks.push({ id: dayId, tasks: [task] });
+      }
+      console.log("Updated tasks state:", state.tasks); // Log the state for debugging
     },
   },
 });
@@ -38,13 +44,30 @@ export const {
   addTaskSuccess,
 } = tasks.actions;
 
-export const addNewTask = (url, key, newTask) => async (dispatch) => {
+export const addNewTask = (url, dayId, newTask) => async (dispatch) => {
   try {
     dispatch(setIsLoading(true));
 
-    await postTask(url, key, newTask);
+    // Generate new task key
+    const newKeyRef = await fetch(`${url}/${dayId}/tasks.json`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ task: newTask }),
+    });
 
-    await postTask(url);
+    if (!newKeyRef.ok) {
+      throw new Error("Failed to generate key from Firebase");
+    }
+
+    const keyData = await newKeyRef.json();
+    const key = keyData.name;
+
+    const task = { id: key, task: newTask };
+    console.log("Task object to add:", { dayId, task });
+    dispatch(addTaskSuccess({ dayId, task }));
+    dispatch(setUploadMessage("Task added successfully"));
   } catch (error) {
     console.error(error);
     dispatch(setError(true));

@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { filteredDay, getAllDays } from "../../store/days";
+import { addTaskToDay, filteredDay, getAllDays } from "../../store/days";
 import { fbDays } from "../../API/api";
 import Button from "../UI/Button/Button";
 
 import Input from "../UI/Input/Input";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
+import { addNewTask } from "../../store/tasks";
 
 export default function DayDetail() {
   const { dayId } = useParams();
@@ -49,7 +50,16 @@ export default function DayDetail() {
     setInputValue(event);
   };
 
-  const sendHandler = () => {};
+  const sendHandler = () => {
+    if (inputValue.trim() !== "") {
+      dispatch(addNewTask(fbDays, dayId, inputValue)).then(() => {
+        dispatch(
+          addTaskToDay({ dayId, task: { id: dayId, task: inputValue } })
+        );
+      });
+      setInputValue("");
+    }
+  };
   return (
     <>
       <div className="text-center flex justify-between">

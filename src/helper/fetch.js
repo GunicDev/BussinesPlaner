@@ -25,13 +25,13 @@ export const allDays = async (url) => {
   return transformedData;
 };
 
-export const postTask = async (url, key, newData) => {
-  const response = await fetch(`${url}/${key}.json`, {
-    method: "PUT", // Use PUT to set the data at the specified key
+export const postTask = async (url, dayId, newTask) => {
+  const response = await fetch(`${url}/${dayId}.json`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(newData),
+    body: JSON.stringify(newTask),
   });
 
   if (!response.ok) {
@@ -39,6 +39,6 @@ export const postTask = async (url, key, newData) => {
   }
 
   const data = await response.json();
-  console.log(data, "postDay");
+  console.log(data, "postTask");
   return data;
 };
