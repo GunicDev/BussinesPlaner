@@ -22,13 +22,14 @@ export default function DayDetail() {
   const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
-    if (days.length === 0) {
-      dispatch(getAllDays(fbDays)).then(() => {
-        dispatch(filteredDay(dayId));
-      });
-    } else {
+    const fetchData = async () => {
+      if (days.length === 0) {
+        await dispatch(getAllDays(fbDays));
+      }
       dispatch(filteredDay(dayId));
-    }
+    };
+
+    fetchData();
   }, [dayId, dispatch, days.length]);
 
   if (isLoading || filteredDayDetail === null) {
@@ -50,13 +51,16 @@ export default function DayDetail() {
     setInputValue(event);
   };
 
-  const sendHandler = () => {
+  const sendHandler = async () => {
     if (inputValue.trim() !== "") {
-      dispatch(addNewTask(fbDays, dayId, inputValue)).then(() => {
-        dispatch(
-          addTaskToDay({ dayId, task: { id: dayId, task: inputValue } })
-        );
-      });
+      await dispatch(addNewTask(fbDays, dayId, inputValue));
+      dispatch(
+        addTaskToDay({
+          dayId,
+          task: { id: new Date().getTime(), task: inputValue },
+        })
+      );
+      dispatch(filteredDay(dayId));
       setInputValue("");
     }
   };
@@ -96,7 +100,7 @@ export default function DayDetail() {
         <h1 className="text-xl">{filteredDayDetail.name} tasks:</h1>
         <ul className="mt-7">
           {filteredDayDetail.tasks.map((task, index) => (
-            <li>
+            <li key={index}>
               <label htmlFor={index} className="text-3xl">
                 {task.task}
               </label>
