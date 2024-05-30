@@ -31,7 +31,6 @@ const tasks = createSlice({
       } else {
         state.tasks.push({ id: dayId, tasks: [task] });
       }
-      console.log("Updated tasks state:", state.tasks);
     },
   },
 });
