@@ -66,7 +66,6 @@ export const getAllDays = (url) => async (dispatch) => {
 
     data[0].tasks = Object.values(data[0].tasks);
 
-    console.log(data);
     dispatch(setDay(data));
     dispatch(setIsLoading(false));
   } catch (error) {

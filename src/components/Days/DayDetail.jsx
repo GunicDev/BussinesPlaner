@@ -65,6 +65,8 @@ export default function DayDetail() {
     }
   };
 
+  console.log(filteredDayDetail);
+
   return (
     <>
       <div className="text-center flex justify-between">
