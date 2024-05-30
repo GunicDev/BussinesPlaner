@@ -84,7 +84,7 @@ export default function DaysList() {
                           </td>
                           <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-300">
                             {/* {add lenght of the list items inside object} */}
-                            {days.map((day) => day.tasks.length)}
+                            {item.tasks.length}
                           </td>
                           <td className="relative whitespace-nowrap  py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                             <Link

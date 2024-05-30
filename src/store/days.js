@@ -63,7 +63,10 @@ export const getAllDays = (url) => async (dispatch) => {
   try {
     dispatch(setIsLoading(true));
     const data = await allDays(url);
-    console.log(data, "line 64");
+
+    data[0].tasks = Object.values(data[0].tasks);
+
+    console.log(data);
     dispatch(setDay(data));
     dispatch(setIsLoading(false));
   } catch (error) {
