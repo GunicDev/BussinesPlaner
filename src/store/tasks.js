@@ -52,7 +52,7 @@ export const addNewTask = (url, dayId, newTask) => async (dispatch) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ task: newTask }),
+      body: JSON.stringify({ task: newTask, done: false }),
     });
 
     if (!newKeyRef.ok) {

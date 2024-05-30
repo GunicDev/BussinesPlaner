@@ -57,7 +57,7 @@ export default function DayDetail() {
       dispatch(
         addTaskToDay({
           dayId,
-          task: { id: new Date().getTime(), task: inputValue },
+          task: { task: inputValue, done: false },
         })
       );
       dispatch(filteredDay(dayId));

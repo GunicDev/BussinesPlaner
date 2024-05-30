@@ -40,9 +40,7 @@ const days = createSlice({
       return {
         ...state,
         days: state.days.map((day) =>
-          day.id === dayId
-            ? { ...day, tasks: [...day.tasks, task], done: false }
-            : day
+          day.id === dayId ? { ...day, tasks: [...day.tasks, task] } : day
         ),
       };
     },
