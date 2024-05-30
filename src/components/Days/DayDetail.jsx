@@ -18,6 +18,8 @@ export default function DayDetail() {
   const isLoading = useSelector((state) => state.days.isLoading);
   const [showAddTasks, setShowAddTasks] = useState(false);
 
+  const [inputValue, setInputValue] = useState("");
+
   useEffect(() => {
     if (days.length === 0) {
       dispatch(getAllDays(fbDays)).then(() => {
@@ -43,6 +45,11 @@ export default function DayDetail() {
     console.log("clicked send button");
   };
 
+  const taskHandler = (event) => {
+    setInputValue(event);
+  };
+
+  const sendHandler = () => {};
   return (
     <>
       <div className="text-center flex justify-between">
@@ -62,16 +69,14 @@ export default function DayDetail() {
         <div className="flex justify-center mt-11">
           <div className="w-2/3">
             <h4 className=" text-left">Add New Task:</h4>
-            <ul className="mt-3">
-              <li className="flex flex-row">
-                <div className="w-full">
-                  <Input />
-                </div>
-                <div className="mt-2 ml-3">
-                  <PlusCircleIcon className=" w-7 h-7" />
-                </div>
-              </li>
-            </ul>
+            <div className="flex flex-row mt-3">
+              <div className="w-full">
+                <Input onChange={(event) => taskHandler(event.target.value)} />
+              </div>
+              <div className="mt-2 ml-3">
+                <PlusCircleIcon className=" w-7 h-7" onClick={sendHandler} />
+              </div>
+            </div>
           </div>
         </div>
       )}

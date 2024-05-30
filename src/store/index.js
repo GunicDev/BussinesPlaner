@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import days from "./days";
-import items from "./items";
+import tasks from "./tasks";
 
 const store = configureStore({
   reducer: {
     days: days.reducer,
-    items: items.reducer,
+    tasks: tasks.reducer,
   },
 });
 
