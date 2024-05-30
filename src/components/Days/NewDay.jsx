@@ -4,9 +4,11 @@ import Input from "../UI/Input/Input";
 import { useDispatch } from "react-redux";
 import { newDay } from "../../store/days";
 import { fbDays } from "../../API/api";
+import { useNavigate } from "react-router-dom";
 
 export default function NewDay() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [inputValue, setInputValue] = useState("");
 
@@ -18,7 +20,8 @@ export default function NewDay() {
     event.preventDefault();
 
     dispatch(newDay(fbDays, inputValue));
-    console.log(inputValue);
+
+    navigate("/home");
   };
 
   return (
