@@ -8,7 +8,7 @@ export default function DaysList() {
   const editHandler = (id) => {
     nagivate(`/${id}`);
   };
-
+  console.log(days);
   if (days === undefined || days === null) {
     return <h1>There is no days created!</h1>;
   }

@@ -7,10 +7,7 @@ import "./App.css";
 import Home from "./Pages/Home";
 import RootLayot from "./Pages/RootLayout";
 import NewDayPage from "./Pages/NewDayPage";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { fbDays } from "./API/api";
-import { getAllDays } from "./store/days";
+
 import DetailPage from "./Pages/DetailPage";
 
 const router = createBrowserRouter([
@@ -34,11 +31,6 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getAllDays(fbDays));
-  }, [dispatch]);
   return <RouterProvider router={router} />;
 }
 

@@ -31,7 +31,7 @@ const tasks = createSlice({
       } else {
         state.tasks.push({ id: dayId, tasks: [task] });
       }
-      console.log("Updated tasks state:", state.tasks); // Log the state for debugging
+      console.log("Updated tasks state:", state.tasks);
     },
   },
 });
@@ -48,7 +48,6 @@ export const addNewTask = (url, dayId, newTask) => async (dispatch) => {
   try {
     dispatch(setIsLoading(true));
 
-    // Generate new task key
     const newKeyRef = await fetch(`${url}/${dayId}/tasks.json`, {
       method: "POST",
       headers: {

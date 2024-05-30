@@ -60,6 +60,8 @@ export default function DayDetail() {
       setInputValue("");
     }
   };
+
+  console.log(filteredDayDetail);
   return (
     <>
       <div className="text-center flex justify-between">
@@ -93,17 +95,19 @@ export default function DayDetail() {
       <div className="mt-7 text-center">
         <h1 className="text-xl">{filteredDayDetail.name} tasks:</h1>
         <ul className="mt-7">
-          <li>
-            <label htmlFor={"id"} className="text-3xl">
-              laksdlkaslkdnlka
-            </label>
-            <input
-              className="ml-3 w-3 h-3"
-              type="checkbox"
-              id={"id"}
-              name="task"
-            />
-          </li>
+          {filteredDayDetail.tasks.map((task) => (
+            <li>
+              <label htmlFor={"id"} className="text-3xl">
+                {task.task}
+              </label>
+              <input
+                className="ml-3 w-3 h-3"
+                type="checkbox"
+                id={"id"}
+                name="task"
+              />
+            </li>
+          ))}
         </ul>
       </div>
       <div className="mt-11 flex justify-between">

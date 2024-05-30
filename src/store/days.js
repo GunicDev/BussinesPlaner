@@ -17,7 +17,7 @@ const days = createSlice({
       // Ensure each day has a tasks array
       state.days = action.payload.map((day) => ({
         ...day,
-        tasks: Array.isArray(day.tasks) ? day.tasks : [],
+        tasks: Object.values(day.tasks),
       }));
     },
     setError(state, action) {
@@ -37,10 +37,12 @@ const days = createSlice({
     },
     addTaskToDay(state, action) {
       const { dayId, task } = action.payload;
-      const day = state.days.find((d) => d.id === dayId);
-      if (day) {
-        day.tasks.push(task);
-      }
+      return {
+        ...state,
+        days: state.days.map((day) =>
+          day.id === dayId ? { ...day, tasks: [...day.tasks, task] } : day
+        ),
+      };
     },
   },
 });
@@ -87,7 +89,7 @@ export const newDay = (url, data) => async (dispatch) => {
     const keyData = await newKeyRef.json();
     const key = keyData.name;
 
-    const newEntry = { id: key, name: data, tasks: [{}] };
+    const newEntry = { id: key, name: data, tasks: [] };
 
     await postDay(url, key, newEntry);
 
