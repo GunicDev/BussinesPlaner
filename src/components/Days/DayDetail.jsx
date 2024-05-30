@@ -95,15 +95,15 @@ export default function DayDetail() {
       <div className="mt-7 text-center">
         <h1 className="text-xl">{filteredDayDetail.name} tasks:</h1>
         <ul className="mt-7">
-          {filteredDayDetail.tasks.map((task) => (
+          {filteredDayDetail.tasks.map((task, index) => (
             <li>
-              <label htmlFor={"id"} className="text-3xl">
+              <label htmlFor={index} className="text-3xl">
                 {task.task}
               </label>
               <input
                 className="ml-3 w-3 h-3"
                 type="checkbox"
-                id={"id"}
+                id={index}
                 name="task"
               />
             </li>
