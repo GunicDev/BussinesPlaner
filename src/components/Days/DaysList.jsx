@@ -1,17 +1,27 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { getAllDays } from "../../store/days";
+import { useEffect } from "react";
+import { fbDays } from "../../API/api";
 
 export default function DaysList() {
   const days = useSelector((state) => state.days.days);
   const nagivate = useNavigate();
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllDays(fbDays));
+  }, [dispatch]);
+
   const editHandler = (id) => {
     nagivate(`/${id}`);
   };
-  console.log(days);
+
   if (days === undefined || days === null) {
     return <h1>There is no days created!</h1>;
   }
+
   return (
     <div className="m-0 p-0">
       <div className="mx-auto max-w-7xl">
@@ -27,10 +37,11 @@ export default function DaysList() {
                 </p>
               </div>
               <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-                <Link to={"/create"}>
-                  <button className="block rounded-md bg-indigo-500 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
-                    New Day
-                  </button>
+                <Link
+                  to={"/create"}
+                  className="block w-1/3 rounded-md bg-indigo-500 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                >
+                  New Day
                 </Link>
               </div>
             </div>

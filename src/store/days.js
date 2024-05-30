@@ -40,7 +40,9 @@ const days = createSlice({
       return {
         ...state,
         days: state.days.map((day) =>
-          day.id === dayId ? { ...day, tasks: [...day.tasks, task] } : day
+          day.id === dayId
+            ? { ...day, tasks: [...day.tasks, task], done: false }
+            : day
         ),
       };
     },
@@ -61,6 +63,7 @@ export const getAllDays = (url) => async (dispatch) => {
   try {
     dispatch(setIsLoading(true));
     const data = await allDays(url);
+    console.log(data, "line 64");
     dispatch(setDay(data));
     dispatch(setIsLoading(false));
   } catch (error) {
@@ -89,7 +92,7 @@ export const newDay = (url, data) => async (dispatch) => {
     const keyData = await newKeyRef.json();
     const key = keyData.name;
 
-    const newEntry = { id: key, name: data, tasks: [] };
+    const newEntry = { id: key, name: data, tasks: "" };
 
     await postDay(url, key, newEntry);
 

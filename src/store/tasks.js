@@ -62,7 +62,7 @@ export const addNewTask = (url, dayId, newTask) => async (dispatch) => {
     const keyData = await newKeyRef.json();
     const key = keyData.name;
 
-    const task = { id: key, task: newTask };
+    const task = { id: key, task: newTask, done: false };
     console.log("Task object to add:", { dayId, task });
     dispatch(addTaskSuccess({ dayId, task }));
     dispatch(setUploadMessage("Task added successfully"));
