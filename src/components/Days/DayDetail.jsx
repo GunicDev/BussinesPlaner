@@ -21,6 +21,7 @@ export default function DayDetail() {
   const [showAddTasks, setShowAddTasks] = useState(false);
 
   const [inputValue, setInputValue] = useState("");
+  const [selectedInputId, setSelectedInputId] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,7 +70,7 @@ export default function DayDetail() {
   };
 
   const doneTaskHandler = (id) => {
-    console.log(id);
+    setSelectedInputId(id);
   };
 
   console.log(filteredDayDetail);
@@ -109,7 +110,12 @@ export default function DayDetail() {
         <ul className="mt-7">
           {filteredDayDetail.tasks.map((task, index) => (
             <li key={index}>
-              <label htmlFor={index} className={`text-3xl`}>
+              <label
+                htmlFor={index}
+                className={`text-3xl ${
+                  task.id === selectedInputId ? "text-red-500" : ""
+                }`}
+              >
                 {task.task}
               </label>
               <input
