@@ -17,6 +17,7 @@ export default function DayDetail() {
   const filteredDayDetail = useSelector((state) => state.days.filteredDay);
   const days = useSelector((state) => state.days.days);
   const isLoading = useSelector((state) => state.days.isLoading);
+  const key = useSelector((state) => state.tasks.key);
   const [showAddTasks, setShowAddTasks] = useState(false);
 
   const [inputValue, setInputValue] = useState("");
@@ -53,12 +54,13 @@ export default function DayDetail() {
 
   const sendHandler = async () => {
     if (inputValue.trim() !== "") {
-      const task = await dispatch(addNewTask(fbDays, dayId, inputValue));
-      console.log(task);
+      dispatch(addNewTask(fbDays, dayId, inputValue));
+      console.log(key, "key saveHandler");
+
       dispatch(
         addTaskToDay({
           dayId,
-          task: { task: inputValue, done: false },
+          task: { id: key, task: inputValue, done: false },
         })
       );
       dispatch(filteredDay(dayId));

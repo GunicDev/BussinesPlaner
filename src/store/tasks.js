@@ -5,6 +5,7 @@ const initialState = {
   uploadMessage: false,
   isLoading: true,
   setError: false,
+  key: null,
 };
 
 const tasks = createSlice({
@@ -33,6 +34,9 @@ const tasks = createSlice({
         state.tasks.push({ id: dayId, tasks: [task] });
       }
     },
+    setKey(state, action) {
+      state.key = action.payload;
+    },
   },
 });
 
@@ -42,6 +46,7 @@ export const {
   setIsLoading,
   setUploadMessage,
   addTaskSuccess,
+  setKey,
 } = tasks.actions;
 
 export const addNewTask = (url, dayId, newTask) => async (dispatch) => {
@@ -76,6 +81,7 @@ export const addNewTask = (url, dayId, newTask) => async (dispatch) => {
 
     dispatch(addTaskSuccess({ dayId, task }));
     dispatch(setUploadMessage("Task added successfully"));
+    dispatch(setKey(key));
   } catch (error) {
     console.error(error);
     dispatch(setError(true));
