@@ -25,9 +25,9 @@ export const allDays = async (url) => {
   return transformedData;
 };
 
-export const postTask = async (url, dayId, newTask) => {
-  const response = await fetch(`${url}/${dayId}.json`, {
-    method: "POST",
+export const postTask = async (url, dayId, key, newTask) => {
+  const response = await fetch(`${url}/${dayId}/${key}.json`, {
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },

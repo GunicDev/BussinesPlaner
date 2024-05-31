@@ -37,6 +37,7 @@ const days = createSlice({
     },
     addTaskToDay(state, action) {
       const { dayId, task } = action.payload;
+      console.log(task, "task inside addtasToDay");
       return {
         ...state,
         days: state.days.map((day) =>

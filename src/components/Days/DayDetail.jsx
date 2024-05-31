@@ -53,7 +53,8 @@ export default function DayDetail() {
 
   const sendHandler = async () => {
     if (inputValue.trim() !== "") {
-      await dispatch(addNewTask(fbDays, dayId, inputValue));
+      const task = await dispatch(addNewTask(fbDays, dayId, inputValue));
+      console.log(task);
       dispatch(
         addTaskToDay({
           dayId,
@@ -63,6 +64,10 @@ export default function DayDetail() {
       dispatch(filteredDay(dayId));
       setInputValue("");
     }
+  };
+
+  const doneTaskHandler = (id) => {
+    console.log(id);
   };
 
   console.log(filteredDayDetail);
@@ -102,7 +107,7 @@ export default function DayDetail() {
         <ul className="mt-7">
           {filteredDayDetail.tasks.map((task, index) => (
             <li key={index}>
-              <label htmlFor={index} className="text-3xl">
+              <label htmlFor={index} className={`text-3xl`}>
                 {task.task}
               </label>
               <input
@@ -110,6 +115,7 @@ export default function DayDetail() {
                 type="checkbox"
                 id={index}
                 name="task"
+                onClick={() => doneTaskHandler(task.id)}
               />
             </li>
           ))}

@@ -26,6 +26,7 @@ const tasks = createSlice({
     addTaskSuccess(state, action) {
       const { dayId, task } = action.payload;
       const existingDay = state.tasks.find((day) => day.id === dayId);
+
       if (existingDay) {
         existingDay.tasks.push(task);
       } else {
@@ -63,7 +64,16 @@ export const addNewTask = (url, dayId, newTask) => async (dispatch) => {
     const key = keyData.name;
 
     const task = { id: key, task: newTask, done: false };
-    console.log("Task object to add:", { dayId, task });
+
+    // Update the task with the generated key
+    await fetch(`${url}/${dayId}/tasks/${key}.json`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: key }),
+    });
+
     dispatch(addTaskSuccess({ dayId, task }));
     dispatch(setUploadMessage("Task added successfully"));
   } catch (error) {
