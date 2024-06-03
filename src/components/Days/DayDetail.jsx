@@ -21,8 +21,6 @@ export default function DayDetail() {
   const [showAddTasks, setShowAddTasks] = useState(false);
 
   const [inputValue, setInputValue] = useState("");
-  // const [selectedInputId, setSelectedInputId] = useState("");
-  const [checkedTask, setCheckedTask] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,11 +68,9 @@ export default function DayDetail() {
     }
   };
 
-  const doneTaskHandler = (id) => {
-    // setSelectedInputId(id);
-    setCheckedTask(!checkedTask);
-    dispatch(doneTask(id, checkedTask, dayId, fbDays));
-    dispatch(getAllDays(fbDays));
+  const doneTaskHandler = (id, task) => {
+    dispatch(doneTask(id, !task, dayId, fbDays));
+    dispatch(filteredDay(dayId));
   };
 
   console.log(filteredDayDetail);
@@ -117,7 +113,7 @@ export default function DayDetail() {
               <p
                 htmlFor={index}
                 className={`text-3xl ${task.done ? "text-red-700" : ""} `}
-                onClick={() => doneTaskHandler(task.id)}
+                onClick={() => doneTaskHandler(task.id, task.done)}
               >
                 {task.task}
               </p>
