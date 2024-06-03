@@ -37,6 +37,17 @@ const tasks = createSlice({
     setKey(state, action) {
       state.key = action.payload;
     },
+    setTaskDone(state, action) {
+      const { dayId, taskId, done } = action.payload;
+      const day = state.tasks.find((day) => day.id === dayId);
+
+      if (day) {
+        const task = day.tasks.find((task) => task.id === taskId);
+        if (task) {
+          task.done = done;
+        }
+      }
+    },
   },
 });
 
@@ -47,6 +58,7 @@ export const {
   setUploadMessage,
   addTaskSuccess,
   setKey,
+  setTaskDone,
 } = tasks.actions;
 
 export const addNewTask = (url, dayId, newTask) => async (dispatch) => {
@@ -82,6 +94,31 @@ export const addNewTask = (url, dayId, newTask) => async (dispatch) => {
     dispatch(addTaskSuccess({ dayId, task }));
     dispatch(setUploadMessage("Task added successfully"));
     dispatch(setKey(key));
+  } catch (error) {
+    console.error(error);
+    dispatch(setError(true));
+  } finally {
+    dispatch(setIsLoading(false));
+  }
+};
+
+export const doneTask = (id, checkedTask, dayId, url) => async (dispatch) => {
+  try {
+    dispatch(setIsLoading(true));
+
+    const newKeyRef = await fetch(`${url}/${dayId}/tasks/${id}.json`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ done: checkedTask }),
+    });
+
+    if (!newKeyRef.ok) {
+      throw new Error("Failed to generate key from Firebase");
+    }
+
+    dispatch(setTaskDone({ dayId, taskId: id, done: checkedTask }));
   } catch (error) {
     console.error(error);
     dispatch(setError(true));

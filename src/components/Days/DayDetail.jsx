@@ -7,7 +7,7 @@ import Button from "../UI/Button/Button";
 
 import Input from "../UI/Input/Input";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
-import { addNewTask } from "../../store/tasks";
+import { addNewTask, doneTask } from "../../store/tasks";
 
 export default function DayDetail() {
   const { dayId } = useParams();
@@ -21,7 +21,8 @@ export default function DayDetail() {
   const [showAddTasks, setShowAddTasks] = useState(false);
 
   const [inputValue, setInputValue] = useState("");
-  const [selectedInputId, setSelectedInputId] = useState("");
+  // const [selectedInputId, setSelectedInputId] = useState("");
+  const [checkedTask, setCheckedTask] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,7 +71,9 @@ export default function DayDetail() {
   };
 
   const doneTaskHandler = (id) => {
-    setSelectedInputId(id);
+    // setSelectedInputId(id);
+    setCheckedTask(!checkedTask);
+    dispatch(doneTask(id, checkedTask, dayId, fbDays));
   };
 
   console.log(filteredDayDetail);
@@ -112,9 +115,7 @@ export default function DayDetail() {
             <li key={index}>
               <label
                 htmlFor={index}
-                className={`text-3xl ${
-                  task.id === selectedInputId ? "text-red-500" : ""
-                }`}
+                className={`text-3xl ${task.done ? "text-red-700" : ""} `}
               >
                 {task.task}
               </label>
