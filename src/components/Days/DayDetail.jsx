@@ -74,6 +74,7 @@ export default function DayDetail() {
     // setSelectedInputId(id);
     setCheckedTask(!checkedTask);
     dispatch(doneTask(id, checkedTask, dayId, fbDays));
+    dispatch(getAllDays(fbDays));
   };
 
   console.log(filteredDayDetail);
@@ -113,19 +114,13 @@ export default function DayDetail() {
         <ul className="mt-7">
           {filteredDayDetail.tasks.map((task, index) => (
             <li key={index}>
-              <label
+              <p
                 htmlFor={index}
                 className={`text-3xl ${task.done ? "text-red-700" : ""} `}
+                onClick={() => doneTaskHandler(task.id)}
               >
                 {task.task}
-              </label>
-              <input
-                className="ml-3 w-3 h-3"
-                type="checkbox"
-                id={index}
-                name="task"
-                onClick={() => doneTaskHandler(task.id)}
-              />
+              </p>
             </li>
           ))}
         </ul>
