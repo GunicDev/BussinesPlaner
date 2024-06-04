@@ -14,6 +14,7 @@ import Button from "../UI/Button/Button";
 import Input from "../UI/Input/Input";
 import { PlusCircleIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { addNewTask, doneTask } from "../../store/tasks";
+import DeleteDialog from "../UI/Dilog/DeleteDialog";
 
 export default function DayDetail() {
   const { dayId } = useParams();
@@ -27,6 +28,7 @@ export default function DayDetail() {
   const [showAddTasks, setShowAddTasks] = useState(false);
 
   const [inputValue, setInputValue] = useState("");
+  const [dialog, setDialog] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -81,8 +83,17 @@ export default function DayDetail() {
     dispatch(updateFilteredDayTask({ taskId: id, done: task }));
   };
 
-  const deleteTaskHandler = () => {
+  const openDeleteDialog = () => {
+    setDialog(true);
+  };
+
+  const closeDeleteDialog = () => {
+    setDialog(false);
+  };
+
+  const deleteHandler = () => {
     console.log("delete");
+    setDialog(false); // Close dialog after deleting
   };
 
   return (
@@ -132,7 +143,7 @@ export default function DayDetail() {
               {task.done ? (
                 <TrashIcon
                   className="text-red-700 w-7 h-7 mt-2 ml-3"
-                  onClick={deleteTaskHandler}
+                  onClick={openDeleteDialog}
                 />
               ) : (
                 ""
@@ -160,6 +171,13 @@ export default function DayDetail() {
           Transfer undone tasks to next day
         </Button>
       </div>
+      {dialog && (
+        <DeleteDialog
+          dialog={dialog}
+          onClick={deleteHandler}
+          onClose={closeDeleteDialog}
+        />
+      )}
     </>
   );
 }
