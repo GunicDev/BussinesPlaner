@@ -76,16 +76,10 @@ export default function DayDetail() {
 
   const doneTaskHandler = async (id, task) => {
     dispatch(doneTask(id, task, dayId, fbDays));
-    console.log(!task, "task inside done handler");
-
     dispatch(updateDay({ id, done: task }));
     dispatch(getAllDays(fbDays));
     dispatch(updateFilteredDayTask({ taskId: id, done: task }));
-
-    console.log(filteredDayDetail);
   };
-
-  console.log(filteredDayDetail);
 
   return (
     <>
@@ -124,7 +118,9 @@ export default function DayDetail() {
             <li key={index}>
               <p
                 htmlFor={index}
-                className={`text-3xl ${task.done ? "text-red-700 " : ""} `}
+                className={`text-3xl ${
+                  task.done ? "text-red-700 line-through" : ""
+                } `}
                 onClick={() => doneTaskHandler(task.id, !task.done)}
               >
                 {task.task}

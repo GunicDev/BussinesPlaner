@@ -48,7 +48,6 @@ const days = createSlice({
     updateDay(state, action) {
       const { id, done } = action.payload;
 
-      console.log(done);
       return {
         ...state,
         tasks: state.filteredDay.tasks.map((task) =>
