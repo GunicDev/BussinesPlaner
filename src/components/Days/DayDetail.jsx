@@ -12,7 +12,7 @@ import { fbDays } from "../../API/api";
 import Button from "../UI/Button/Button";
 
 import Input from "../UI/Input/Input";
-import { PlusCircleIcon } from "@heroicons/react/24/outline";
+import { PlusCircleIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { addNewTask, doneTask } from "../../store/tasks";
 
 export default function DayDetail() {
@@ -81,6 +81,10 @@ export default function DayDetail() {
     dispatch(updateFilteredDayTask({ taskId: id, done: task }));
   };
 
+  const deleteTaskHandler = () => {
+    console.log("delete");
+  };
+
   return (
     <>
       <div className="text-center flex justify-between">
@@ -115,7 +119,7 @@ export default function DayDetail() {
         <h1 className="text-xl">{filteredDayDetail.name} tasks:</h1>
         <ul className="mt-7">
           {filteredDayDetail.tasks.map((task, index) => (
-            <li key={index}>
+            <li key={index} className="flex justify-center align-middle">
               <p
                 htmlFor={index}
                 className={`text-3xl ${
@@ -125,6 +129,14 @@ export default function DayDetail() {
               >
                 {task.task}
               </p>
+              {task.done ? (
+                <TrashIcon
+                  className="text-red-700 w-7 h-7 mt-2 ml-3"
+                  onClick={deleteTaskHandler}
+                />
+              ) : (
+                ""
+              )}
             </li>
           ))}
         </ul>
