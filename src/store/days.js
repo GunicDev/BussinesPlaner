@@ -45,6 +45,24 @@ const days = createSlice({
         ),
       };
     },
+    updateDay(state, action) {
+      const { id, done } = action.payload;
+
+      console.log(done);
+      return {
+        ...state,
+        tasks: state.filteredDay.tasks.map((task) =>
+          task.id === id ? { ...task, done: done } : task
+        ),
+      };
+    },
+    updateFilteredDayTask(state, action) {
+      const { taskId, done } = action.payload;
+      const task = state.filteredDay.tasks.find((task) => task.id === taskId);
+      if (task) {
+        task.done = done;
+      }
+    },
   },
 });
 
@@ -56,6 +74,8 @@ export const {
   addDaySuccess,
   setFilteredDay,
   addTaskToDay,
+  updateDay,
+  updateFilteredDayTask,
 } = days.actions;
 
 export const getAllDays = (url) => async (dispatch) => {

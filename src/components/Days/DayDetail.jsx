@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { addTaskToDay, filteredDay, getAllDays } from "../../store/days";
+import {
+  addTaskToDay,
+  filteredDay,
+  getAllDays,
+  updateDay,
+  updateFilteredDayTask,
+} from "../../store/days";
 import { fbDays } from "../../API/api";
 import Button from "../UI/Button/Button";
 
@@ -68,9 +74,15 @@ export default function DayDetail() {
     }
   };
 
-  const doneTaskHandler = (id, task) => {
-    dispatch(doneTask(id, !task, dayId, fbDays));
-    dispatch(filteredDay(dayId));
+  const doneTaskHandler = async (id, task) => {
+    dispatch(doneTask(id, task, dayId, fbDays));
+    console.log(!task, "task inside done handler");
+
+    dispatch(updateDay({ id, done: task }));
+    dispatch(getAllDays(fbDays));
+    dispatch(updateFilteredDayTask({ taskId: id, done: task }));
+
+    console.log(filteredDayDetail);
   };
 
   console.log(filteredDayDetail);
@@ -112,8 +124,8 @@ export default function DayDetail() {
             <li key={index}>
               <p
                 htmlFor={index}
-                className={`text-3xl ${task.done ? "text-red-700" : ""} `}
-                onClick={() => doneTaskHandler(task.id, task.done)}
+                className={`text-3xl ${task.done ? "text-red-700 " : ""} `}
+                onClick={() => doneTaskHandler(task.id, !task.done)}
               >
                 {task.task}
               </p>
