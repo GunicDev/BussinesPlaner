@@ -70,12 +70,12 @@ export default function DeleteDialog({ dialog, onClick, onClose }) {
                       as="h3"
                       className="text-base font-semibold leading-6 text-gray-900"
                     >
-                      Deactivate account
+                      Remove task
                     </DialogTitle>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        Are you sure you want to deactivate your account? All of
-                        your data will be permanently removed from our servers
+                        Are you sure you want to remove your task? All of your
+                        data will be permanently removed from our servers
                         forever. This action cannot be undone.
                       </p>
                     </div>
@@ -87,7 +87,7 @@ export default function DeleteDialog({ dialog, onClick, onClose }) {
                     className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
                     onClick={onClick}
                   >
-                    Deactivate
+                    Remove
                   </button>
                   <button
                     type="button"
