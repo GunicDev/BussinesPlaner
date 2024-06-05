@@ -92,6 +92,12 @@ export const getAllDays = (url) => async (dispatch) => {
   try {
     dispatch(setIsLoading(true));
     const data = await allDays(url);
+
+    if (data === null || data === undefined) {
+      dispatch(setIsLoading(false));
+      return;
+    }
+
     data.forEach((day) => {
       day.tasks = day.tasks ? Object.values(day.tasks) : [];
     });

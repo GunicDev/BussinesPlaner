@@ -20,6 +20,10 @@ export const allDays = async (url) => {
   }
   const data = await response.json();
 
+  if (data === null || data === undefined) {
+    return data;
+  }
+
   const transformedData = Object.values(data);
 
   return transformedData;

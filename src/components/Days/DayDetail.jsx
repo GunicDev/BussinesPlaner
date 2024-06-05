@@ -46,6 +46,7 @@ export default function DayDetail() {
   if (isLoading || filteredDayDetail === null) {
     return <p>Loading...</p>;
   }
+
   const backHandler = () => {
     navigate(-1);
   };
@@ -132,32 +133,40 @@ export default function DayDetail() {
           </div>
         </div>
       )}
-      <div className="mt-7 text-center">
-        <h1 className="text-xl">{filteredDayDetail.name} tasks:</h1>
-        <ul className="mt-7">
-          {filteredDayDetail.tasks.map((task, index) => (
-            <li key={index} className="flex justify-center align-middle">
-              <p
-                htmlFor={index}
-                className={`text-3xl ${
-                  task.done ? "text-red-700 line-through" : ""
-                } `}
-                onClick={() => doneTaskHandler(task.id, !task.done)}
-              >
-                {task.task}
-              </p>
-              {task.done ? (
-                <TrashIcon
-                  className="text-red-700 w-7 h-7 mt-2 ml-3"
-                  onClick={() => openDeleteDialog(task.id)}
-                />
-              ) : (
-                ""
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
+      {filteredDayDetail.tasks === null ||
+      filteredDayDetail.tasks === "" ||
+      filteredDayDetail.tasks.length === 0 ? (
+        <p className="text-center mt-11">
+          There are no tasks! Create a new task!
+        </p>
+      ) : (
+        <div className="mt-7 text-center">
+          <h1 className="text-xl">{filteredDayDetail.name} tasks:</h1>
+          <ul className="mt-7">
+            {filteredDayDetail.tasks.map((task, index) => (
+              <li key={index} className="flex justify-center align-middle">
+                <p
+                  htmlFor={index}
+                  className={`text-3xl ${
+                    task.done ? "text-red-700 line-through" : ""
+                  } `}
+                  onClick={() => doneTaskHandler(task.id, !task.done)}
+                >
+                  {task.task}
+                </p>
+                {task.done ? (
+                  <TrashIcon
+                    className="text-red-700 w-7 h-7 mt-2 ml-3"
+                    onClick={() => openDeleteDialog(task.id)}
+                  />
+                ) : (
+                  ""
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       <div className="mt-11 flex justify-between">
         <Button
           type="button"
