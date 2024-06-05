@@ -7,6 +7,7 @@ import {
   getAllDays,
   updateDay,
   updateFilteredDayTask,
+  updateTasks,
 } from "../../store/days";
 import { fbDays } from "../../API/api";
 import Button from "../UI/Button/Button";
@@ -64,7 +65,6 @@ export default function DayDetail() {
   const sendHandler = async () => {
     if (inputValue.trim() !== "") {
       dispatch(addNewTask(fbDays, dayId, inputValue));
-      console.log(key, "key saveHandler");
 
       dispatch(
         addTaskToDay({
@@ -93,13 +93,15 @@ export default function DayDetail() {
     setDialog(false);
   };
 
-  const deleteHandler = () => {
-    console.log("delete");
-
+  const deleteHandler = async () => {
     dispatch(deleteTask(taskId, fbDays, dayId));
-    setDialog(false); // Close dialog after deleting
+    dispatch(updateTasks({ id: taskId }));
+    dispatch(filteredDay(dayId));
+    setDialog(false);
+    console.log(filteredDayDetail);
   };
 
+  console.log(filteredDayDetail);
   return (
     <>
       <div className="text-center flex justify-between">

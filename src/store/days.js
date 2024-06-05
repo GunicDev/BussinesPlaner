@@ -37,7 +37,6 @@ const days = createSlice({
     },
     addTaskToDay(state, action) {
       const { dayId, task } = action.payload;
-      console.log(task, "task inside addtasToDay");
       return {
         ...state,
         days: state.days.map((day) =>
@@ -62,6 +61,17 @@ const days = createSlice({
         task.done = done;
       }
     },
+    updateTasks(state, action) {
+      const { id } = action.payload;
+      state.filteredDay.tasks = state.filteredDay.tasks.filter(
+        (task) => task.id !== id
+      );
+
+      const day = state.days.find((day) => day.id === state.filteredDay.id);
+      if (day) {
+        day.tasks = day.tasks.filter((task) => task.id !== id);
+      }
+    },
   },
 });
 
@@ -75,15 +85,16 @@ export const {
   addTaskToDay,
   updateDay,
   updateFilteredDayTask,
+  updateTasks,
 } = days.actions;
 
 export const getAllDays = (url) => async (dispatch) => {
   try {
     dispatch(setIsLoading(true));
     const data = await allDays(url);
-
-    data[0].tasks = Object.values(data[0].tasks);
-
+    data.forEach((day) => {
+      day.tasks = day.tasks ? Object.values(day.tasks) : [];
+    });
     dispatch(setDay(data));
     dispatch(setIsLoading(false));
   } catch (error) {
