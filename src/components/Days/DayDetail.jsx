@@ -13,7 +13,7 @@ import Button from "../UI/Button/Button";
 
 import Input from "../UI/Input/Input";
 import { PlusCircleIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { addNewTask, doneTask } from "../../store/tasks";
+import { addNewTask, deleteTask, doneTask } from "../../store/tasks";
 import DeleteDialog from "../UI/Dilog/DeleteDialog";
 
 export default function DayDetail() {
@@ -29,6 +29,7 @@ export default function DayDetail() {
 
   const [inputValue, setInputValue] = useState("");
   const [dialog, setDialog] = useState(false);
+  const [taskId, setTaskId] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -83,7 +84,8 @@ export default function DayDetail() {
     dispatch(updateFilteredDayTask({ taskId: id, done: task }));
   };
 
-  const openDeleteDialog = () => {
+  const openDeleteDialog = (id) => {
+    setTaskId(id);
     setDialog(true);
   };
 
@@ -93,6 +95,8 @@ export default function DayDetail() {
 
   const deleteHandler = () => {
     console.log("delete");
+
+    dispatch(deleteTask(taskId, fbDays, dayId));
     setDialog(false); // Close dialog after deleting
   };
 
@@ -143,7 +147,7 @@ export default function DayDetail() {
               {task.done ? (
                 <TrashIcon
                   className="text-red-700 w-7 h-7 mt-2 ml-3"
-                  onClick={openDeleteDialog}
+                  onClick={() => openDeleteDialog(task.id)}
                 />
               ) : (
                 ""

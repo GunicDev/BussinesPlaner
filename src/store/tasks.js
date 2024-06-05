@@ -48,6 +48,11 @@ const tasks = createSlice({
         }
       }
     },
+    setDeleteTask(state, action) {
+      const { id } = action.payload;
+      console.log(id, "id of task inside setDeleteTask");
+      state.tasks.filter((task) => task.id === id);
+    },
   },
 });
 
@@ -59,6 +64,7 @@ export const {
   addTaskSuccess,
   setKey,
   setTaskDone,
+  setDeleteTask,
 } = tasks.actions;
 
 export const addNewTask = (url, dayId, newTask) => async (dispatch) => {
@@ -119,6 +125,23 @@ export const doneTask = (id, checkedTask, dayId, url) => async (dispatch) => {
     }
 
     dispatch(setTaskDone({ dayId, taskId: id, done: checkedTask }));
+  } catch (error) {
+    console.error(error);
+    dispatch(setError(true));
+  } finally {
+    dispatch(setIsLoading(false));
+  }
+};
+
+export const deleteTask = (id, url, dayId) => async (dispatch) => {
+  try {
+    dispatch(setIsLoading(true));
+    console.log({ id });
+    await fetch(`${url}/${dayId}/tasks/${id}.json`, {
+      method: "DELETE",
+    });
+
+    dispatch(setDeleteTask({ id }));
   } catch (error) {
     console.error(error);
     dispatch(setError(true));
