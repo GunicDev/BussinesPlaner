@@ -25,7 +25,7 @@ export default function DayDetail() {
   const filteredDayDetail = useSelector((state) => state.days.filteredDay);
   const days = useSelector((state) => state.days.days);
   const isLoading = useSelector((state) => state.days.isLoading);
-  const key = useSelector((state) => state.tasks.key);
+
   const [showAddTasks, setShowAddTasks] = useState(false);
 
   const [inputValue, setInputValue] = useState("");
@@ -65,7 +65,7 @@ export default function DayDetail() {
 
   const sendHandler = async () => {
     if (inputValue.trim() !== "") {
-      dispatch(addNewTask(fbDays, dayId, inputValue));
+      const key = await dispatch(addNewTask(fbDays, dayId, inputValue));
 
       dispatch(
         addTaskToDay({
@@ -99,10 +99,8 @@ export default function DayDetail() {
     dispatch(updateTasks({ id: taskId }));
     dispatch(filteredDay(dayId));
     setDialog(false);
-    console.log(filteredDayDetail);
   };
 
-  console.log(filteredDayDetail);
   return (
     <>
       <div className="text-center flex justify-between">

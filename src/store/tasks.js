@@ -102,6 +102,7 @@ export const addNewTask = (url, dayId, newTask) => async (dispatch) => {
     dispatch(addTaskSuccess({ dayId, task }));
     dispatch(setUploadMessage("Task added successfully"));
     dispatch(setKey(key));
+    return key;
   } catch (error) {
     console.error(error);
     dispatch(setError(true));
