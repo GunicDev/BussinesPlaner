@@ -46,9 +46,9 @@ export default function NewDay() {
         <div className="p-3 m-2">
           <Button
             type={"submit"}
-            bgColor={"bg-green-200"}
+            bgColor={"bg-blue-400"}
             textColor={"text-white"}
-            textHover={"text-green-600"}
+            textHover={"hover:text-gray-600"}
           >
             Add Day
           </Button>
