@@ -189,6 +189,7 @@ export default function DayDetail() {
           dialog={dialog}
           onClick={deleteHandler}
           onClose={closeDeleteDialog}
+          name={"task"}
         />
       )}
     </>

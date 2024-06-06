@@ -1,21 +1,37 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getAllDays } from "../../store/days";
-import { useEffect } from "react";
+import { deleteDay, getAllDays } from "../../store/days";
+import { useEffect, useState } from "react";
 import { fbDays } from "../../API/api";
 import Button from "../UI/Button/Button";
+import DeleteDialog from "../UI/Dilog/DeleteDialog";
 
 export default function DaysList() {
   const days = useSelector((state) => state.days.days);
 
   const dispatch = useDispatch();
+  const [dayID, setDayId] = useState("");
+  const [dialog, setDialog] = useState(false);
 
   useEffect(() => {
-    dispatch(getAllDays(fbDays));
-  }, [dispatch]);
+    const fetchDays = async () => {
+      await dispatch(getAllDays(fbDays));
+    };
+    fetchDays();
+  }, [dispatch, days.length]);
 
-  const deleteDayHandler = () => {
-    console.log("delete");
+  const openDeleteDialog = (id) => {
+    setDayId(id);
+    setDialog(true);
+  };
+
+  const closeDeleteDialog = () => {
+    setDialog(false);
+  };
+
+  const deleteHandler = async () => {
+    dispatch(deleteDay(dayID, fbDays));
+    setDialog(false);
   };
   console.log(days);
 
@@ -91,7 +107,7 @@ export default function DaysList() {
                                 textColor={"text-red-700"}
                                 textHover={"hover:text-red-300"}
                                 bgColor={"none"}
-                                onClick={deleteDayHandler}
+                                onClick={() => openDeleteDialog(item.id)}
                               >
                                 Delete
                               </Button>
@@ -107,6 +123,14 @@ export default function DaysList() {
           </div>
         </div>
       </div>
+      {dialog && (
+        <DeleteDialog
+          dialog={dialog}
+          name={"day"}
+          onClick={deleteHandler}
+          onClose={closeDeleteDialog}
+        />
+      )}
     </div>
   );
 }

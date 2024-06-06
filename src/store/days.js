@@ -54,6 +54,11 @@ const days = createSlice({
         ),
       };
     },
+    deleteDayFromState(state, action) {
+      const dayId = action.payload;
+
+      state.days = state.days.filter((day) => day.id !== dayId);
+    },
     updateFilteredDayTask(state, action) {
       const { taskId, done } = action.payload;
       const task = state.filteredDay.tasks.find((task) => task.id === taskId);
@@ -84,6 +89,7 @@ export const {
   setFilteredDay,
   addTaskToDay,
   updateDay,
+  deleteDayFromState,
   updateFilteredDayTask,
   updateTasks,
 } = days.actions;
@@ -150,6 +156,20 @@ export const filteredDay = (id) => async (dispatch) => {
     dispatch(setIsLoading(false));
   } catch (error) {
     console.error("Error:", error);
+    dispatch(setError(true));
+  }
+};
+
+export const deleteDay = (id, url) => async (dispatch) => {
+  try {
+    dispatch(setIsLoading(true));
+    console.log(id, "id inside deleteDay");
+    await fetch(`${url}/${id}.json`, { method: "DELETE" });
+    dispatch(deleteDayFromState(id));
+
+    dispatch(setIsLoading(false));
+  } catch (error) {
+    console.rerror("Error", error);
     dispatch(setError(true));
   }
 };

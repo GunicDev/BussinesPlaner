@@ -11,7 +11,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 
-export default function DeleteDialog({ dialog, onClick, onClose }) {
+export default function DeleteDialog({ dialog, onClick, onClose, name }) {
   const [open, setOpen] = useState(dialog);
 
   useEffect(() => {
@@ -70,11 +70,11 @@ export default function DeleteDialog({ dialog, onClick, onClose }) {
                       as="h3"
                       className="text-base font-semibold leading-6 text-gray-900"
                     >
-                      Remove task
+                      Remove {name}
                     </DialogTitle>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        Are you sure you want to remove your task? All of your
+                        Are you sure you want to remove your {name}? All of your
                         data will be permanently removed from our servers
                         forever. This action cannot be undone.
                       </p>

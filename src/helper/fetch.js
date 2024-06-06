@@ -1,6 +1,6 @@
 export const postDay = async (url, key, data) => {
   const response = await fetch(`${url}/${key}.json`, {
-    method: "PUT", // Use PUT to set the data at the specified key
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
