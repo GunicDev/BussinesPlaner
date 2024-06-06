@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getAllDays } from "../../store/days";
 import { useEffect } from "react";
 import { fbDays } from "../../API/api";
+import Button from "../UI/Button/Button";
 
 export default function DaysList() {
   const days = useSelector((state) => state.days.days);
-  const nagivate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -14,8 +14,8 @@ export default function DaysList() {
     dispatch(getAllDays(fbDays));
   }, [dispatch]);
 
-  const editHandler = (id) => {
-    nagivate(`/${id}`);
+  const deleteDayHandler = () => {
+    console.log("delete");
   };
   console.log(days);
 
@@ -76,26 +76,25 @@ export default function DaysList() {
                       </thead>
                       <tbody className="divide-y divide-gray-800">
                         {days.map((item) => (
-                          <tr
-                            key={item.id}
-                            onClick={() => editHandler(item.id)}
-                            className="hover:bg-blue-900 cursor-pointer"
-                          >
+                          <tr key={item.id} className="cursor-pointer">
                             <td className="whitespace-nowrap text-center py-4 pl-4 pr-3 text-sm font-medium  sm:pl-0">
-                              {item.name}
+                              <Link to={`/${item.id}`}>{item.name}</Link>
                             </td>
                             <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-300">
-                              {/* {add lenght of the list items inside object} */}
-                              {item.tasks.length}
+                              <Link to={`/${item.id}`}>
+                                {item.tasks.length}
+                              </Link>
                             </td>
                             <td className="relative whitespace-nowrap  py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                              <Link
-                                to="#"
-                                className="text-red-400 hover:text-indigo-300 p-3"
+                              <Button
+                                type="button"
+                                textColor={"text-red-700"}
+                                textHover={"hover:text-red-300"}
+                                bgColor={"none"}
+                                onClick={deleteDayHandler}
                               >
                                 Delete
-                                <span className="sr-only">, {item.name}</span>
-                              </Link>
+                              </Button>
                             </td>
                           </tr>
                         ))}

@@ -5,6 +5,7 @@ export default function Button({
   bgColor,
   textColor,
   textHover,
+  border,
 }) {
   if (bgColor === undefined) {
     bgColor = "bg-white";
