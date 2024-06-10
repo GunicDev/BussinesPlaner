@@ -14,6 +14,11 @@ export default function SendTasksToNextDay({ dialog, onClick, onClose }) {
   const filteredDayDetail = useSelector((state) => state.days.filteredDay);
   const days = useSelector((state) => state.days.days);
 
+  const [selectedDay, setSelectedDay] = useState("");
+  const undoneTasks = filteredDayDetail.tasks.filter(
+    (undone) => undone.done === false
+  );
+
   useEffect(() => {
     setOpen(dialog);
   }, [dialog]);
@@ -22,7 +27,16 @@ export default function SendTasksToNextDay({ dialog, onClick, onClose }) {
     setOpen(false);
     onClose();
   };
-  console.log(filteredDayDetail);
+
+  const chooseDayHandler = (event) => {
+    setSelectedDay(event);
+    console.log(undoneTasks, "tasks");
+  };
+
+  const sendUndoneTasksHandler = () => {
+    console.log(selectedDay, "day to send");
+    console.log(undoneTasks, "tasks");
+  };
 
   return (
     <Transition show={open}>
@@ -65,10 +79,20 @@ export default function SendTasksToNextDay({ dialog, onClick, onClose }) {
                     </DialogTitle>
 
                     <div className="mt-2">
-                      <select className="bg-white text-black p-1 border border-gray-700 rounded-lg">
+                      <select
+                        className="bg-white text-black p-1 border border-gray-700 rounded-lg"
+                        onClick={(event) =>
+                          chooseDayHandler(event.target.value)
+                        }
+                      >
                         {days.map((day) =>
                           day.id !== filteredDayDetail.id ? (
-                            <option className="p-3" key={day.id} id={day.id}>
+                            <option
+                              className="p-3"
+                              key={day.id}
+                              id={day.id}
+                              value={day.id}
+                            >
                               {day.name}
                             </option>
                           ) : (
@@ -104,7 +128,7 @@ export default function SendTasksToNextDay({ dialog, onClick, onClose }) {
                   <button
                     type="button"
                     className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2"
-                    onClick={onClick}
+                    onClick={sendUndoneTasksHandler}
                   >
                     Send
                   </button>

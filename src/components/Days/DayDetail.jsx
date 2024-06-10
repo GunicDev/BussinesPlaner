@@ -57,10 +57,6 @@ export default function DayDetail() {
     setShowAddTasks(!showAddTasks);
   };
 
-  const sendUndoneTasksHandler = () => {
-    console.log("clicked send button");
-  };
-
   const taskHandler = (event) => {
     setInputValue(event);
   };
@@ -206,11 +202,7 @@ export default function DayDetail() {
         />
       )}
       {sendDialog && (
-        <SendTasksToNextDay
-          dialog={sendDialog}
-          onClick={sendUndoneTasksHandler}
-          onClose={closeSendDialog}
-        />
+        <SendTasksToNextDay dialog={sendDialog} onClose={closeSendDialog} />
       )}
     </>
   );
