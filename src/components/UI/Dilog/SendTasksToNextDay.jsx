@@ -7,10 +7,15 @@ import {
   TransitionChild,
 } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { sendUndoneTasks } from "../../../store/tasks";
+import { fbDays } from "../../../API/api";
+import { useNavigate } from "react-router-dom";
 
 export default function SendTasksToNextDay({ dialog, onClose }) {
   const [open, setOpen] = useState(dialog);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const filteredDayDetail = useSelector((state) => state.days.filteredDay);
   const days = useSelector((state) => state.days.days);
 
@@ -35,7 +40,6 @@ export default function SendTasksToNextDay({ dialog, onClose }) {
     if (event !== "") {
       setInvalidDay(false);
     }
-    console.log(undoneTasks, "tasks");
   };
 
   const sendUndoneTasksHandler = () => {
@@ -44,9 +48,8 @@ export default function SendTasksToNextDay({ dialog, onClose }) {
       setInvalidDay(true);
       return;
     }
-    console.log(selectedDay, "day to send");
-
-    console.log(undoneTasks, "tasks");
+    dispatch(sendUndoneTasks(fbDays, selectedDay, undoneTasks));
+    // navigate("/home");
   };
 
   return (

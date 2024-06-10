@@ -152,4 +152,36 @@ export const deleteTask = (taskId, url, dayId) => async (dispatch) => {
   }
 };
 
+export const sendUndoneTasks = (url, dayId, tasks) => async (dispatch) => {
+  try {
+    dispatch(setIsLoading(true));
+    const newKeyRef = await fetch(`${url}/${dayId}/tasks.json`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ tasks: tasks }),
+    });
+
+    if (!newKeyRef.ok) {
+      throw new Error("Failed to generate key from Firebase");
+    }
+
+    const keyData = await newKeyRef.json();
+    const key = keyData.name;
+    // await fetch(`${url}/${dayId}.json`, {
+    //   method: "PATCH",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({ key: tasks }),
+    // });
+  } catch (error) {
+    console.error(error);
+    dispatch(setError(true));
+  } finally {
+    dispatch(setIsLoading(false));
+  }
+};
+
 export default tasks;
