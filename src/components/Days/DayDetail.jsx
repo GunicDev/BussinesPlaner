@@ -16,6 +16,7 @@ import Input from "../UI/Input/Input";
 import { PlusCircleIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { addNewTask, deleteTask, doneTask } from "../../store/tasks";
 import DeleteDialog from "../UI/Dilog/DeleteDialog";
+import SendTasksToNextDay from "../UI/Dilog/SendTasksToNextDay";
 
 export default function DayDetail() {
   const { dayId } = useParams();
@@ -31,6 +32,7 @@ export default function DayDetail() {
   const [inputValue, setInputValue] = useState("");
   const [dialog, setDialog] = useState(false);
   const [taskId, setTaskId] = useState("");
+  const [sendDialog, setSendDialog] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,6 +103,14 @@ export default function DayDetail() {
     setDialog(false);
   };
 
+  const openSendDialog = () => {
+    setSendDialog(true);
+  };
+
+  const closeSendDialog = () => {
+    setSendDialog(false);
+  };
+
   return (
     <>
       <div className="text-center flex justify-between">
@@ -142,7 +152,10 @@ export default function DayDetail() {
           <h1 className="text-xl">{filteredDayDetail.name} tasks:</h1>
           <ul className="mt-7">
             {filteredDayDetail.tasks.map((task, index) => (
-              <li key={index} className="flex justify-center align-middle">
+              <li
+                key={index}
+                className="flex justify-center align-middle cursor-pointer"
+              >
                 <p
                   htmlFor={index}
                   className={`text-3xl ${
@@ -177,7 +190,7 @@ export default function DayDetail() {
         <Button
           type="button"
           textHover={"hover:text-white"}
-          onClick={sendUndoneTasksHandler}
+          onClick={openSendDialog}
           bgColor={"bg-green-800"}
           textColor={"text-black"}
         >
@@ -190,6 +203,13 @@ export default function DayDetail() {
           onClick={deleteHandler}
           onClose={closeDeleteDialog}
           name={"task"}
+        />
+      )}
+      {sendDialog && (
+        <SendTasksToNextDay
+          dialog={sendDialog}
+          onClick={sendUndoneTasksHandler}
+          onClose={closeSendDialog}
         />
       )}
     </>
