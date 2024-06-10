@@ -9,10 +9,12 @@ import {
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { useSelector } from "react-redux";
 
-export default function SendTasksToNextDay({ dialog, onClick, onClose }) {
+export default function SendTasksToNextDay({ dialog, onClose }) {
   const [open, setOpen] = useState(dialog);
   const filteredDayDetail = useSelector((state) => state.days.filteredDay);
   const days = useSelector((state) => state.days.days);
+
+  const [invalidDay, setInvalidDay] = useState(false);
 
   const [selectedDay, setSelectedDay] = useState("");
   const undoneTasks = filteredDayDetail.tasks.filter(
@@ -30,11 +32,20 @@ export default function SendTasksToNextDay({ dialog, onClick, onClose }) {
 
   const chooseDayHandler = (event) => {
     setSelectedDay(event);
+    if (event !== "") {
+      setInvalidDay(false);
+    }
     console.log(undoneTasks, "tasks");
   };
 
   const sendUndoneTasksHandler = () => {
+    if (selectedDay.length === 0 || selectedDay.trim() === "") {
+      console.log("day true");
+      setInvalidDay(true);
+      return;
+    }
     console.log(selectedDay, "day to send");
+
     console.log(undoneTasks, "tasks");
   };
 
@@ -85,6 +96,7 @@ export default function SendTasksToNextDay({ dialog, onClick, onClose }) {
                           chooseDayHandler(event.target.value)
                         }
                       >
+                        <option value="">Choose day...</option>
                         {days.map((day) =>
                           day.id !== filteredDayDetail.id ? (
                             <option
@@ -100,6 +112,9 @@ export default function SendTasksToNextDay({ dialog, onClick, onClose }) {
                           )
                         )}
                       </select>
+                      {invalidDay && (
+                        <p className="text-red-500">Invalid day</p>
+                      )}
                       <p className="text-black mt-2">Undone tasks:</p>
                       <ul className="m-2">
                         {filteredDayDetail.tasks.map((undone) =>
