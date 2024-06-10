@@ -65,7 +65,7 @@ export default function SendTasksToNextDay({ dialog, onClick, onClose }) {
                     </DialogTitle>
 
                     <div className="mt-2">
-                      <select className="bg-white text-black p-1">
+                      <select className="bg-white text-black p-1 border border-gray-700 rounded-lg">
                         {days.map((day) => (
                           <option className="p-3" key={day.id} id={day.id}>
                             {day.name}
