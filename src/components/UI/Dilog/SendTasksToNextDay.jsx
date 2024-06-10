@@ -66,11 +66,15 @@ export default function SendTasksToNextDay({ dialog, onClick, onClose }) {
 
                     <div className="mt-2">
                       <select className="bg-white text-black p-1 border border-gray-700 rounded-lg">
-                        {days.map((day) => (
-                          <option className="p-3" key={day.id} id={day.id}>
-                            {day.name}
-                          </option>
-                        ))}
+                        {days.map((day) =>
+                          day.id !== filteredDayDetail.id ? (
+                            <option className="p-3" key={day.id} id={day.id}>
+                              {day.name}
+                            </option>
+                          ) : (
+                            ""
+                          )
+                        )}
                       </select>
                       <p className="text-black mt-2">Undone tasks:</p>
                       <ul className="m-2">
