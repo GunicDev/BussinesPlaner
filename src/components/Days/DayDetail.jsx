@@ -128,7 +128,10 @@ export default function DayDetail() {
             <h4 className=" text-left">Add New Task:</h4>
             <div className="flex flex-row mt-3">
               <div className="w-full">
-                <Input onChange={(event) => taskHandler(event.target.value)} />
+                <Input
+                  value={inputValue}
+                  onChange={(event) => taskHandler(event.target.value)}
+                />
               </div>
               <div className="mt-2 ml-3">
                 <PlusCircleIcon className=" w-7 h-7" onClick={sendHandler} />

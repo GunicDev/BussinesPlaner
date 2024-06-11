@@ -90,52 +90,58 @@ export default function SendTasksToNextDay({ dialog, onClose }) {
                       as="h3"
                       className="text-base font-semibold leading-6 text-gray-900"
                     >
-                      Chose day:
+                      Send Undone Tasks
                     </DialogTitle>
 
-                    <div className="mt-2">
-                      <select
-                        className="bg-white text-black p-1 border border-gray-700 rounded-lg"
-                        onClick={(event) =>
-                          chooseDayHandler(event.target.value)
-                        }
-                      >
-                        <option value="">Choose day...</option>
-                        {days.map((day) =>
-                          day.id !== filteredDayDetail.id ? (
-                            <option
-                              className="p-3"
-                              key={day.id}
-                              id={day.id}
-                              value={day.id}
-                            >
-                              {day.name}
-                            </option>
-                          ) : (
-                            ""
-                          )
-                        )}
-                      </select>
-                      {invalidDay && (
-                        <p className="text-red-500">Invalid day</p>
-                      )}
-                      <p className="text-black mt-2">Undone tasks:</p>
-                      <ul className="m-2">
-                        {filteredDayDetail.tasks.map((undone) =>
-                          undone.done === false ? (
-                            <li
-                              className="text-gray-600"
-                              key={undone.id}
-                              id={undone.id}
-                            >
-                              {undone.task}
-                            </li>
-                          ) : (
-                            ""
-                          )
-                        )}
-                      </ul>
-                      <p className="text-sm text-gray-500">
+                    <div className="mt-3">
+                      <div className="flex flex-row">
+                        <div className="w-2/4">
+                          <select
+                            className="bg-white text-black p-1 border border-gray-700 rounded-lg"
+                            onClick={(event) =>
+                              chooseDayHandler(event.target.value)
+                            }
+                          >
+                            <option value="">Choose day...</option>
+                            {days.map((day) =>
+                              day.id !== filteredDayDetail.id ? (
+                                <option
+                                  className="p-3"
+                                  key={day.id}
+                                  id={day.id}
+                                  value={day.id}
+                                >
+                                  {day.name}
+                                </option>
+                              ) : (
+                                ""
+                              )
+                            )}
+                          </select>
+                          {invalidDay && (
+                            <p className="text-red-500">Invalid day</p>
+                          )}
+                        </div>
+                        <div className="w-2/4">
+                          <p className="text-black mt-2">Undone tasks:</p>
+                          <ul className="m-2">
+                            {filteredDayDetail.tasks.map((undone) =>
+                              undone.done === false ? (
+                                <li
+                                  className="text-gray-500"
+                                  key={undone.id}
+                                  id={undone.id}
+                                >
+                                  {undone.task}
+                                </li>
+                              ) : (
+                                ""
+                              )
+                            )}
+                          </ul>
+                        </div>
+                      </div>
+                      <p className="text-sm text-gray-500 mt-5">
                         Choose the day where you want to send undone tasks. When
                         you have chosen, press 'Send' to move the undone tasks
                         to your selected day.
