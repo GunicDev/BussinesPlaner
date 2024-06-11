@@ -43,6 +43,6 @@ export const postTask = async (url, dayId, key, newTask) => {
   }
 
   const data = await response.json();
-  console.log(data, "postTask");
+
   return data;
 };

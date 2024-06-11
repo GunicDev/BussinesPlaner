@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { sendUndoneTasks } from "../../../store/tasks";
 import { fbDays } from "../../../API/api";
 import { useNavigate } from "react-router-dom";
+import { getAllDays } from "../../../store/days";
 
 export default function SendTasksToNextDay({ dialog, onClose }) {
   const [open, setOpen] = useState(dialog);
@@ -42,13 +43,13 @@ export default function SendTasksToNextDay({ dialog, onClose }) {
     }
   };
 
-  const sendUndoneTasksHandler = () => {
+  const sendUndoneTasksHandler = async () => {
     if (selectedDay.length === 0 || selectedDay.trim() === "") {
-      console.log("day true");
       setInvalidDay(true);
       return;
     }
-    dispatch(sendUndoneTasks(fbDays, selectedDay, undoneTasks));
+    await dispatch(sendUndoneTasks(fbDays, selectedDay, undoneTasks));
+    await dispatch(getAllDays(fbDays));
     navigate("/home");
   };
 

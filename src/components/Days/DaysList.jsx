@@ -33,7 +33,6 @@ export default function DaysList() {
     dispatch(deleteDay(dayID, fbDays));
     setDialog(false);
   };
-  console.log(days);
 
   return (
     <div className="m-0 p-0">

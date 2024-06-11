@@ -163,7 +163,7 @@ export const filteredDay = (id) => async (dispatch) => {
 export const deleteDay = (id, url) => async (dispatch) => {
   try {
     dispatch(setIsLoading(true));
-    console.log(id, "id inside deleteDay");
+
     await fetch(`${url}/${id}.json`, { method: "DELETE" });
     dispatch(deleteDayFromState(id));
 
