@@ -38,6 +38,7 @@ export default function SendTasksToNextDay({ dialog, onClose }) {
 
   const chooseDayHandler = (event) => {
     setSelectedDay(event);
+    console.log(event);
     if (event !== "") {
       setInvalidDay(false);
     }
@@ -98,7 +99,7 @@ export default function SendTasksToNextDay({ dialog, onClose }) {
                         <div className="w-2/4">
                           <select
                             className="bg-white text-black p-1 border border-gray-700 rounded-lg"
-                            onClick={(event) =>
+                            onChange={(event) =>
                               chooseDayHandler(event.target.value)
                             }
                           >
