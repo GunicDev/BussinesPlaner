@@ -155,24 +155,29 @@ export const sendUndoneTasks = (url, dayId, tasks) => async (dispatch) => {
   try {
     dispatch(setIsLoading(true));
 
-    // Prepare a batch update for all tasks
-    const updates = {};
+    // Fetch the existing day object from Firebase
+    const dayFetchResponse = await fetch(`${url}/${dayId}.json`);
+    const existingDayObject = await dayFetchResponse.json();
 
+    // If tasks object doesn't exist, create it
+    const updatedTasks = existingDayObject.tasks || {};
+
+    // Add or update tasks
     for (const task of tasks) {
       // Use the id as the key and include it in the task object
-      updates[task.id] = { ...task };
+      updatedTasks[task.id] = { ...task };
     }
 
     // Prepare the final object to be sent
-    const tasksObject = { tasks: updates };
+    const updatedDayObject = { ...existingDayObject, tasks: updatedTasks };
 
-    // Patch the updates to the tasks node of the specific day
+    // Patch the updates to the specific day
     await fetch(`${url}/${dayId}.json`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(tasksObject),
+      body: JSON.stringify(updatedDayObject),
     });
   } catch (error) {
     console.error(error);
