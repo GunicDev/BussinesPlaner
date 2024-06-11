@@ -151,31 +151,45 @@ export const deleteTask = (taskId, url, dayId) => async (dispatch) => {
     dispatch(setIsLoading(false));
   }
 };
-
 export const sendUndoneTasks = (url, dayId, tasks) => async (dispatch) => {
   try {
     dispatch(setIsLoading(true));
-    const newKeyRef = await fetch(`${url}/${dayId}/tasks.json`, {
-      method: "POST",
+
+    // Prepare a batch update for all tasks
+    const updates = {};
+
+    for (const task of tasks) {
+      // Generate a unique key by pushing a new task to Firebase
+      const newKeyRef = await fetch(`${url}/${dayId}/tasks.json`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(task),
+      });
+
+      if (!newKeyRef.ok) {
+        throw new Error("Failed to generate key from Firebase");
+      }
+
+      const keyData = await newKeyRef.json();
+      const key = keyData.name;
+
+      // Add the new task with its key to the updates object
+      updates[key] = task;
+    }
+
+    // Prepare the final object to be sent
+    const tasksObject = { tasks: updates };
+
+    // Patch the updates to the tasks node of the specific day
+    await fetch(`${url}/${dayId}.json`, {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ tasks: tasks }),
+      body: JSON.stringify(tasksObject),
     });
-
-    if (!newKeyRef.ok) {
-      throw new Error("Failed to generate key from Firebase");
-    }
-
-    const keyData = await newKeyRef.json();
-    const key = keyData.name;
-    // await fetch(`${url}/${dayId}.json`, {
-    //   method: "PATCH",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ key: tasks }),
-    // });
   } catch (error) {
     console.error(error);
     dispatch(setError(true));
