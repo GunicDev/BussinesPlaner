@@ -49,7 +49,7 @@ export default function SendTasksToNextDay({ dialog, onClose }) {
       return;
     }
     dispatch(sendUndoneTasks(fbDays, selectedDay, undoneTasks));
-    // navigate("/home");
+    navigate("/home");
   };
 
   return (

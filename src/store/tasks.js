@@ -159,24 +159,8 @@ export const sendUndoneTasks = (url, dayId, tasks) => async (dispatch) => {
     const updates = {};
 
     for (const task of tasks) {
-      // Generate a unique key by pushing a new task to Firebase
-      const newKeyRef = await fetch(`${url}/${dayId}/tasks.json`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(task),
-      });
-
-      if (!newKeyRef.ok) {
-        throw new Error("Failed to generate key from Firebase");
-      }
-
-      const keyData = await newKeyRef.json();
-      const key = keyData.name;
-
-      // Add the new task with its key to the updates object
-      updates[key] = task;
+      // Use the id as the key and include it in the task object
+      updates[task.id] = { ...task };
     }
 
     // Prepare the final object to be sent
