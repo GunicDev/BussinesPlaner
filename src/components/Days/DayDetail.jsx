@@ -27,8 +27,6 @@ export default function DayDetail() {
   const days = useSelector((state) => state.days.days);
   const isLoading = useSelector((state) => state.days.isLoading);
 
-  const [showAddTasks, setShowAddTasks] = useState(false);
-
   const [inputValue, setInputValue] = useState("");
   const [dialog, setDialog] = useState(false);
   const [taskId, setTaskId] = useState("");
@@ -51,10 +49,6 @@ export default function DayDetail() {
 
   const backHandler = () => {
     navigate(-1);
-  };
-
-  const showAddTaskHandler = () => {
-    setShowAddTasks(!showAddTasks);
   };
 
   const taskHandler = (event) => {
@@ -107,39 +101,37 @@ export default function DayDetail() {
     setSendDialog(false);
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      sendHandler();
+    }
+  };
+
   return (
     <>
       <div className="text-center flex justify-between">
         <h1>{filteredDayDetail.name}</h1>
-
-        <Button
-          type="button"
-          onClick={showAddTaskHandler}
-          bgColor={showAddTasks ? "bg-blue-500" : "bg-blue-700"}
-        >
-          {showAddTasks ? "Dont show add tasks" : "Show Add tasks"}
-        </Button>
       </div>
 
       {/* Add new Task */}
-      {showAddTasks && (
-        <div className="flex justify-center mt-11">
-          <div className="w-2/3">
-            <h4 className=" text-left">Add New Task:</h4>
-            <div className="flex flex-row mt-3">
-              <div className="w-full">
-                <Input
-                  value={inputValue}
-                  onChange={(event) => taskHandler(event.target.value)}
-                />
-              </div>
-              <div className="mt-2 ml-3">
-                <PlusCircleIcon className=" w-7 h-7" onClick={sendHandler} />
-              </div>
+
+      <div className="flex justify-center mt-11">
+        <div className="w-2/3">
+          <h4 className=" text-left">Add New Task:</h4>
+          <div className="flex flex-row mt-3">
+            <div className="w-full" onKeyDown={handleKeyPress}>
+              <Input
+                value={inputValue}
+                onChange={(event) => taskHandler(event.target.value)}
+              />
+            </div>
+            <div className="mt-2 ml-3 max-sm:hidden">
+              <PlusCircleIcon className="w-7 h-7 " onClick={sendHandler} />
             </div>
           </div>
         </div>
-      )}
+      </div>
+
       {filteredDayDetail.tasks === null ||
       filteredDayDetail.tasks === "" ||
       filteredDayDetail.tasks.length === 0 ? (
